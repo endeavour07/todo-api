@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Todos</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>Todos for {{ username }}</h1>
+
+  <form method="post" action="/todos">
+    <input name="title" placeholder="Title" required>
+    <input name="description" placeholder="Description">
+    <button type="submit">Add (session)</button>
+  </form>
+
+  <h2>Your list</h2>
+  <ul>
+    {% for t in todos %}
+      <li>
+        <strong>{{ t.title }}</strong> — {{ t.description }} — done: {{ t.done }}
+      </li>
+    {% else %}
+      <li>No todos yet.</li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="/auth/logout">Logout</a></p>
+
+  <hr>
+  <h3>API test helper (get JWT, call API)</h3>
+  <p>Use Postman for API testing. If you want to test here, paste a JWT below:</p>
+  <input id="token" placeholder="paste JWT here" style="width:60%">
+  <button onclick="callApi()">Get my todos (API)</button>
+  <pre id="apiResult"></pre>
+
+<script>
+async function callApi(){
+  const token = document.getElementById('token').value;
+  if(!token){ alert('paste token'); return; }
+  const res = await fetch('/api/todos', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  const data = await res.json();
+  document.getElementById('apiResult').innerText = JSON.stringify(data, null, 2);
+}
+</script>
+</body>
+</html>

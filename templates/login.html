@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>Login</h1>
+  <form method="post" action="/auth/login">
+    <input name="username" placeholder="Username or email" required><br>
+    <input name="password" type="password" placeholder="Password" required><br>
+    <button type="submit">Login (browser)</button>
+  </form>
+
+  <hr>
+  <h3>OR — get JWT for API (Postman)</h3>
+  <p>To get a token, make a <b>POST</b> request to <code>/auth/login</code> with JSON body:</p>
+  <pre>{
+  "username": "your_username_or_email",
+  "password": "your_password"
+}</pre>
+  <p>Response: <code>{ "access_token": "..." }</code></p>
+
+  <p>After JWT is obtained, you can call <code>/api/todos</code> with header:</p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+
+  <p><a href="/auth/register">Register</a></p>
+</body>
+</html>
